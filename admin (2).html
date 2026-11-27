@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin</title>
+<style>
+
+:root{--a:#1e40af;--bg:#f4f6fa;--c:#fff;--l:#dde2ec;--t:#101a33;--m:#5b6785}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:14px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--t);padding-bottom:72px}
+h1,h2,h3,.sn{font-family:Georgia,'Times New Roman',serif}
+.h{display:none!important}.mut{color:var(--m);font-size:12.5px}
+.pg{min-height:100vh}.wrap{max-width:520px;margin:0 auto;padding:18px}
+.lg{width:40px;height:40px;border-radius:10px;background:var(--a);color:#fff;display:inline-flex;align-items:center;justify-content:center;font:700 18px Georgia,serif;overflow:hidden;flex-shrink:0}
+.lg img{width:100%;height:100%;object-fit:contain;background:#fff}
+.brand{display:flex;align-items:center;gap:10px}.sn{font-size:16px;font-weight:700;line-height:1.15}
+.hero{padding:34px 0 22px}.hero h1{font-size:30px;line-height:1.15;margin:18px 0 10px}
+.hero p{color:var(--m);margin-bottom:20px}
+.btn{width:100%;background:var(--a);color:#fff;border:0;border-radius:10px;padding:13px;font:600 14px inherit;cursor:pointer;margin-bottom:10px}
+.btn.gh{background:none;color:var(--t);border:1px solid var(--l)}.btn.sm{width:auto;padding:7px 14px;margin:0;font-size:12.5px}
+.card{background:var(--c);border:1px solid var(--l);border-radius:12px;padding:14px;margin-bottom:10px}
+.card h3{font-size:16px;margin:4px 0}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.row2{display:flex;gap:8px;margin-top:10px}
+.tag{display:inline-block;font-size:11px;font-weight:600;background:#e8edfb;color:var(--a);padding:2px 9px;border-radius:20px}
+.ok{color:#15803d;font-weight:700;font-size:13px}.red{color:#b91c1c}
+.lk{background:none;border:0;font:600 12px inherit;cursor:pointer;margin-top:8px;padding:0}
+label{display:block;font-size:12px;color:var(--m);margin:12px 0 4px}
+input,select,textarea{width:100%;border:1px solid var(--l);border-radius:9px;padding:11px;font:inherit;background:#fff;color:var(--t)}
+textarea{min-height:90px}
+.tabs{display:flex;gap:6px;background:#e8ebf3;padding:4px;border-radius:10px;margin:14px 0}
+.tabs button{flex:1;border:0;background:none;padding:9px 4px;border-radius:8px;font:600 12.5px inherit;color:var(--m);cursor:pointer}
+.tabs button.on{background:#fff;color:var(--a)}
+.err{background:#fde8e8;color:#9b1c1c;border-radius:8px;padding:9px 11px;font-size:12.5px;margin-top:12px}
+header{position:sticky;top:0;z-index:5;background:var(--c);border-bottom:1px solid var(--l);padding:11px 18px;display:flex;justify-content:space-between;align-items:center}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--c);border-top:1px solid var(--l);display:flex;padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;border:0;background:none;padding:8px 0;font:600 11.5px inherit;color:var(--m);cursor:pointer}
+nav button.on{color:var(--a)}
+.sec{margin:18px 0 8px;font-size:18px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat div{background:var(--c);border:1px solid var(--l);border-radius:12px;padding:12px}.stat b{display:block;font:700 22px Georgia,serif}
+body{padding-bottom:0}#admin .wrap{max-width:900px}
+</style></head><body>
+<div class="pg" id="login"><div class="wrap" style="padding-top:70px">
+ <div class="brand"><span class="lg" data-lg></span><span class="sn" data-sn></span></div>
+ <h2 style="margin:18px 0 4px">Admin sign in</h2><p class="mut">For school staff only.</p>
+ <div id="a-err" class="err h"></div>
+ <button class="btn" id="gbtn" style="margin-top:18px;display:flex;align-items:center;justify-content:center;gap:10px" onclick="doLogin()"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#fff" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z"/></svg>Continue with Google</button></div></div>
+<div class="pg h" id="admin">
+ <header><div class="brand"><span class="lg" data-lg></span><span class="sn">Admin dashboard</span></div><button class="lk" onclick="auth.signOut()" style="margin:0">Log out</button></header>
+ <div class="wrap"><div class="tabs" style="flex-wrap:wrap" id="atabs"><button data-t="users" onclick="adm('users')">Users</button><button data-t="posts" onclick="adm('posts')">Posts</button><button data-t="fees" onclick="adm('fees')">Fees</button><button data-t="live" onclick="adm('live')">Live</button><button data-t="send" onclick="adm('send')">Send</button><button data-t="set" onclick="adm('set')">Settings</button></div><div id="adm"></div></div></div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+const FB={apiKey:"AIzaSyCnAE88d8NOHpMTA94i3Hd9IjWXgK8IMi0",authDomain:"billionaires-prediction.firebaseapp.com",projectId:"billionaires-prediction",storageBucket:"billionaires-prediction.firebasestorage.app",messagingSenderId:"951302460452",appId:"1:951302460452:web:a75b51508739785f6f74b1"};
+const ADMINS=["engroscar516@gmail.com","uzodinmachuks677@gmail.com"];
+firebase.initializeApp(FB);const auth=firebase.auth(),db=firebase.firestore(),TS=()=>firebase.firestore.FieldValue.serverTimestamp();
+const $=i=>document.getElementById(i);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>'₦'+Number(n||0).toLocaleString();
+const dt=x=>x&&x.toDate?x.toDate().toLocaleDateString():'';
+let S={name:'Oscar Daxton Academy',tagline:'School Portal',classes:'Computer Repair,Software Installation,Graphic Design,Cyber Security,Cloud Infrastructure,Computer Networking,Digital Technology,CCTV & Smart Devices,Programming & Development,Electronics & IoT,Forex & Financial Education'};
+function show(id){document.querySelectorAll('.pg').forEach(e=>e.classList.add('h'));$(id).classList.remove('h');window.scrollTo(0,0)}
+function applyS(){document.documentElement.style.setProperty('--a',S.accent||'#1e40af');document.title=S.name+' Admin';
+ document.querySelectorAll('[data-sn]').forEach(e=>e.textContent=S.name);
+ document.querySelectorAll('[data-lg]').forEach(e=>e.innerHTML=S.logo?`<img src="${S.logo}" alt="">`:esc((S.name||'O')[0]))}
+db.collection('acad_settings').doc('main').get().then(d=>{if(d.exists)Object.assign(S,d.data());applyS()}).catch(applyS);
+function err(m){const e=$('a-err');e.textContent=m;e.classList.remove('h')}
+async function doLogin(){const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({prompt:'select_account'});try{await auth.signInWithPopup(pr)}catch(x){if(x.code!=='auth/popup-closed-by-user'&&x.code!=='auth/cancelled-popup-request')err(x.code==='auth/unauthorized-domain'?'This domain is not authorised in Firebase. Add it under Authentication > Settings > Authorized domains.':x.code==='auth/operation-not-allowed'?'Google sign-in is not enabled in Firebase yet.':'Could not sign in with Google. Try again.')}}
+auth.onAuthStateChanged(async u=>{
+ if(!u){show('login');return}
+ if(!ADMINS.includes((u.email||'').toLowerCase())){err('This account does not have admin access.');await auth.signOut();return}
+ const r=db.collection('acad_users').doc(u.uid);
+ if(!(await r.get()).exists)await r.set({name:u.displayName||'Admin',email:u.email,role:'admin',status:'verified',createdAt:TS()});
+ show('admin');adm('users')});
+const del=(c,id,cb)=>confirm('Delete this?')&&db.collection(c).doc(id).delete().then(cb);
+function adm(t){document.querySelectorAll('#atabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));({users:aUsers,posts:aPosts,fees:aFees,live:aLive,send:aSend,set:aSet})[t]()}
+async function aUsers(){
+ const [s,en]=await Promise.all([db.collection('acad_users').get(),db.collection('acad_enroll').get()]);
+ const pu={};en.docs.forEach(d=>{const t=d.data().paidUntil;if(t)pu[d.id]=t.toDate()});const now=new Date();
+ const us=s.docs.map(d=>({id:d.id,...d.data()})).filter(u=>u.role!=='admin').sort((x,y)=>((y.status==='pending')-(x.status==='pending'))||((pu[y.id]>now)?1:0)-((pu[x.id]>now)?1:0));
+ const act=us.filter(u=>pu[u.id]>now).length,wait=us.filter(u=>u.status==='pending').length;
+ $('adm').innerHTML=`<div class="stat"><div><b>${us.length}</b><span class="mut">Registered</span></div><div><b>${act}</b><span class="mut">Paid and active</span></div><div><b>${wait}</b><span class="mut">Awaiting approval</span></div></div>`+
+ (us.map(u=>`<div class="card"><b>${esc(u.name)}</b> <span class="tag">${pu[u.id]>now?'Paid until '+pu[u.id].toLocaleDateString():'Not paid'}</span>${u.status==='suspended'?' <span class="tag">suspended</span>':''}${u.status==='pending'?' <span class="tag">awaiting approval</span>':''}<div class="mut">${esc(u.role)} · ${esc(u.cls||'')}<br>${esc(u.email)} · ${esc(u.phone||'')}</div>
+ <div class="row2">${u.status==='pending'?`<button class="btn sm" onclick="setSt('${u.id}','verified')">Approve</button><button class="btn sm gh" onclick="setSt('${u.id}','suspended')">Reject</button>`:u.status==='suspended'?`<button class="btn sm" onclick="setSt('${u.id}','verified')">Reactivate</button>`:`<button class="btn sm gh" onclick="setSt('${u.id}','suspended')">Suspend</button>`}</div></div>`).join('')||'<p class="mut">No registrations yet.</p>')}
+const setSt=(id,s)=>db.collection('acad_users').doc(id).update({status:s}).then(aUsers);
+let PIMG='';function aPosts(){PIMG='';
+ $('adm').innerHTML=`<div class="card"><label style="margin-top:0">Title</label><input id="p-t"><label>Category</label><select id="p-c"><option>News</option><option>Event</option><option>Notice</option><option>Academic</option></select><label>Message</label><textarea id="p-b"></textarea><label>Image (optional)</label><input type="file" accept="image/*" onchange="imgUp(this,'post',700)"><div class="mut" id="lg-s"></div><button class="btn" style="margin-top:14px" onclick="addPost()">Publish post</button></div>`}
+async function addPost(){if(!$('p-t').value||!$('p-b').value)return alert('Add a title and message.');
+ await db.collection('acad_posts').add({title:$('p-t').value,cat:$('p-c').value,body:$('p-b').value,img:PIMG,createdAt:TS()});alert('Published');adm('posts')}
+async function aFees(){
+ const [f,p,u]=await Promise.all([db.collection('acad_fees').get(),db.collection('acad_payments').get(),db.collection('acad_users').get()]);
+ const nm={};u.docs.forEach(d=>nm[d.id]=d.data().name);
+ const ps=p.docs.map(d=>d.data()).sort((x,y)=>(y.createdAt?.seconds||0)-(x.createdAt?.seconds||0));
+ const tot=ps.reduce((n,x)=>n+(x.amount||0),0);
+ $('adm').innerHTML=`<div class="stat"><div><b>${money(tot)}</b><span class="mut">Total received</span></div><div><b>${ps.length}</b><span class="mut">Payments</span></div></div>
+ <div class="card"><b>Academy fee</b><div class="mut">Students pay this to enter the hub. You can change it any time.</div><label>Amount (₦)</label><input id="e-a" type="number" value="${S.feeAmount||20000}"><label>Access length (months)</label><input id="e-m" type="number" value="${S.feeMonths||4}"><button class="btn" style="margin-top:14px" onclick="saveEnrol()">Save academy fee</button></div>
+ <div class="card"><b>Other fees (optional)</b><label>Fee name</label><input id="f-t" placeholder="e.g. Certificate fee"><label>Amount (₦)</label><input id="f-a" type="number"><button class="btn" style="margin-top:14px" onclick="addFee()">Add fee</button></div>`+
+ f.docs.map(d=>{const x=d.data();return `<div class="card row"><div><b>${esc(x.title)}</b><div class="mut">${money(x.amount)}</div></div><button class="lk red" onclick="del('acad_fees','${d.id}',aFees)">Delete</button></div>`}).join('')+
+ '<h2 class="sec">Who has paid</h2>'+(ps.slice(0,50).map(x=>`<div class="card row"><div><b>${esc(nm[x.uid]||'Unknown')}</b><div class="mut">${esc(x.title)} · ${dt(x.createdAt)}</div></div><b>${money(x.amount)}</b></div>`).join('')||'<p class="mut">No payments yet.</p>')}
+async function saveEnrol(){const m=Number($('e-m').value),v=Number($('e-a').value);if(!v||!m)return alert('Enter the amount and months.');S.feeAmount=v;S.feeMonths=m;await db.collection('acad_settings').doc('main').set(S);alert('Saved. The new amount applies to the next payment.')}
+async function aLive(){
+ const [l,j]=await Promise.all([db.collection('acad_links').get(),db.collection('acad_joins').get()]);
+ const jn={};j.docs.forEach(d=>{const x=d.data();(jn[x.linkId]=jn[x.linkId]||[]).push(x)});
+ const cl=(S.classes||'').split(',').map(c=>c.trim()).filter(Boolean);
+ const L=l.docs.map(d=>({id:d.id,...d.data()})).sort((x,y)=>(y.createdAt?.seconds||0)-(x.createdAt?.seconds||0));
+ $('adm').innerHTML=`<div class="card"><label style="margin-top:0">Class title</label><input id="l-t" placeholder="e.g. Cyber Security, week 1"><label>Platform</label><select id="l-k"><option>Zoom</option><option>WhatsApp</option><option>Google Meet</option><option>YouTube</option><option>Other</option></select><label>Link</label><input id="l-u" type="url" placeholder="https://"><label>Date and time</label><input id="l-w" placeholder="e.g. Saturday 4pm"><label>For</label><select id="l-c"><option value="all">All students</option>${cl.map(c=>`<option>${esc(c)}</option>`).join('')}</select><button class="btn" style="margin-top:14px" onclick="addLive()">Share class link</button></div>`+
+ L.map(x=>{const J=jn[x.id]||[];return `<div class="card"><div class="row"><div><b>${esc(x.title)}</b><div class="mut">${esc(x.kind)} · ${esc(x.when||'')} · ${esc(x.course==='all'?'All students':x.course)}</div></div><button class="lk red" onclick="del('acad_links','${x.id}',aLive)">Delete</button></div><details><summary class="mut" style="cursor:pointer">${J.length} joined</summary><div class="mut">${J.map(y=>esc(y.name)).join(', ')||'No one yet.'}</div></details></div>`}).join('')}
+async function addLive(){const u=$('l-u').value.trim();if(!$('l-t').value||!/^https?:\/\//.test(u))return alert('Add a title and a full link starting with https://');
+ await db.collection('acad_links').add({title:$('l-t').value,kind:$('l-k').value,url:u,when:$('l-w').value,course:$('l-c').value,createdAt:TS()});aLive()}
+async function addFee(){const a=Number($('f-a').value);if(!$('f-t').value||!a)return alert('Enter a fee name and amount.');
+ await db.collection('acad_fees').add({title:$('f-t').value,amount:a,createdAt:TS()});aFees()}
+function aSet(){
+ $('adm').innerHTML=`<div class="card"><label style="margin-top:0">School logo</label><input type="file" accept="image/*" onchange="imgUp(this,'logo',240)"><label>Landing page photo</label><input type="file" accept="image/*" onchange="imgUp(this,'heroImg',900)"><div class="mut" id="lg-s"></div>
+ <label>School name</label><input id="s-n" value="${esc(S.name)}"><label>Tagline</label><input id="s-t" value="${esc(S.tagline)}">
+ <label>School phone</label><input id="s-ph" value="${esc(S.phone||'')}"><label>School email</label><input id="s-em" value="${esc(S.email||'')}"><label>Address</label><input id="s-ad" value="${esc(S.address||'')}">
+ <label>About the school (landing page)</label><textarea id="s-ab">${esc(S.about||'')}</textarea>
+ <label>Brand colour</label><input id="s-ac" type="color" value="${S.accent||'#1e40af'}" style="height:44px;padding:4px">
+ <label>Classes (comma separated)</label><textarea id="s-cl">${esc(S.classes)}</textarea>
+ <label>Paystack public key</label><input id="s-pk" value="${esc(S.paystackKey||'')}" placeholder="pk_live_..."><button class="btn" style="margin-top:14px" onclick="saveSet()">Save settings</button></div>`}
+function imgUp(inp,k,max){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{
+ const s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);
+ const v=k==='logo'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',.8);if(k==='post')PIMG=v;else S[k]=v;$('lg-s').textContent='Image ready.'+(k==='post'?'':' Tap Save settings.')};i.src=r.result};r.readAsDataURL(f)}
+async function saveSet(){
+ Object.assign(S,{name:$('s-n').value,tagline:$('s-t').value,about:$('s-ab').value,phone:$('s-ph').value,email:$('s-em').value,address:$('s-ad').value,accent:$('s-ac').value,classes:$('s-cl').value,paystackKey:$('s-pk').value.trim()});
+ await db.collection('acad_settings').doc('main').set(S);applyS();alert('Settings saved')}
+
+async function aSend(){
+ const [u,i]=await Promise.all([db.collection('acad_users').where('status','==','verified').get(),db.collection('acad_items').get()]);
+ const cl=(S.classes||'').split(',').map(c=>c.trim()).filter(Boolean);
+ const L=i.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).slice(0,30);
+ $('adm').innerHTML=`<div class="card"><label style="margin-top:0">Type</label><select id="i-ty"><option value="lesson">Lesson / material</option><option value="homework">Homework</option><option value="timetable">Timetable</option><option value="result">Result</option><option value="message">Message</option></select>
+ <label>Send to</label><select id="i-to"><option value="all">Everyone</option>${cl.map(c=>`<option value="${esc(c)}">Class: ${esc(c)}</option>`).join('')}${u.docs.filter(d=>d.data().role!=='admin').map(d=>`<option value="${d.id}">${esc(d.data().name)} (${esc(d.data().cls||d.data().role)})</option>`).join('')}</select>
+ <label>Title</label><input id="i-t"><label>Details</label><textarea id="i-b"></textarea><button class="btn" style="margin-top:14px" onclick="addItem()">Send</button></div>`+
+ L.map(x=>`<div class="card row"><div><b>${esc(x.title)}</b><div class="mut">${esc(x.type)} · to ${esc(x.toName||x.to)}</div></div><button class="lk red" onclick="del('acad_items','${x.id}',aSend)">Delete</button></div>`).join('')}
+async function addItem(){if(!$('i-t').value||!$('i-b').value)return alert('Add a title and details.');
+ const o=$('i-to');await db.collection('acad_items').add({type:$('i-ty').value,to:o.value,toName:o.selectedOptions[0].text,title:$('i-t').value,body:$('i-b').value,createdAt:TS()});alert('Sent');aSend()}
+</script></body></html>
